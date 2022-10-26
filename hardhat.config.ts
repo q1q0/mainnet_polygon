@@ -95,6 +95,7 @@ const config: HardhatUserConfig = {
     ],
   },
   defaultNetwork: 'hardhat',
+  
   networks: {
     hardhat: {
       chainId: 31337,
@@ -113,13 +114,11 @@ const config: HardhatUserConfig = {
         url: `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`,
         chainId: 5,
         accounts: [process.env.PRIVATE_KEY],
-        timeout: 1000000
     },
     mumbai: {
       url: `https://polygon-testnet.public.blastapi.io`,
       chainId: 80001,
       accounts: [process.env.PRIVATE_KEY],
-      timeout: 1000000
     },
     ganache: {
       chainId: 1337,

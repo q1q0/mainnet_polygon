@@ -13,6 +13,8 @@ interface IAaveOracle {
 contract FxStateRootTunnel is FxBaseRootTunnel {
     bytes public latestData;
     IAaveOracle oracle;
+    event Price(uint256);
+    event StateSynced (uint256 indexed id, address indexed contractAddress, bytes data);
 
     constructor(address _checkpointManager, address _fxRoot, address _oracle) FxBaseRootTunnel(_checkpointManager, _fxRoot) {
         oracle = IAaveOracle(_oracle);
@@ -29,6 +31,7 @@ contract FxStateRootTunnel is FxBaseRootTunnel {
     function updatePrice(address tokenAddr) external {
         uint256 price = oracle.getAssetPrice(tokenAddr);
         sendMessageToChild(abi.encodePacked(price));
+        emit Price(price);
     }
 
 }

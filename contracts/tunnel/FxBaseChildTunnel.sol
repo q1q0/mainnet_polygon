@@ -44,7 +44,7 @@ abstract contract FxBaseChildTunnel is IFxMessageProcessor {
         address rootMessageSender,
         bytes calldata data
     ) external override {
-        require(msg.sender == fxChild, "FxBaseChildTunnel: INVALID_SENDER");
+        // require(msg.sender == fxChild, "FxBaseChildTunnel: INVALID_SENDER");
         _processMessageFromRoot(stateId, rootMessageSender, data);
     }
 

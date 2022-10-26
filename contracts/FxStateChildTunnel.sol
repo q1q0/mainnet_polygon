@@ -16,14 +16,13 @@ contract FxStateChildTunnel is FxBaseChildTunnel {
     }
 
     function _processMessageFromRoot(
-        uint256 stateId,
+        uint256,
         address sender,
         bytes memory data
     ) internal override validateSender(sender) {
-        latestStateId = stateId;
-        latestRootMessageSender = sender;
-        latestData = data;
-        updatePrice = abi.decode(data, (uint256));
+        bytes memory _data;
+        (latestRootMessageSender, ,_data) = abi.decode(data, (address, address, bytes));
+        updatePrice = abi.decode(_data, (uint256));
     }
 
     function sendMessageToRoot(bytes memory message) public {
