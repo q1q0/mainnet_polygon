@@ -42,7 +42,8 @@ describe("Multichain Test", function () {
             console.log("updating ....")
             let tx = await rootFactory.updatePrice("0x75Ab5AB1Eef154C0352Fc31D2428Cef80C7F8B33")  // DAI address in goerli
             tx = await tx.wait()
-            console.log("--------------tx----------------", tx)
+            console.log("--------------tx----------------", tx.events[1].args)
+            const tokenPrice = tx.events[1].args[0]
             console.log("update Price now.....")
             
             const id = BigNumber.from(tx.events[0].args['id']).toString();
@@ -65,7 +66,7 @@ describe("Multichain Test", function () {
                 tx = await tx.wait()
                 let price = await childContract.UpdatePrice()
                 console.log("=======price=======", price.toString())
-                expect(price).to.be.equal(tx.events[1].args['Price'].toString())
+                expect(price).to.be.equal(tokenPrice.toString())
             } catch (e) {
                 console.error("-----error-----", e)
             }
