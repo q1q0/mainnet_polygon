@@ -24,8 +24,6 @@ async function main() {
   const erc20 = await ERC20.deploy(fxChild);
   await erc20.deployTransaction.wait();
   console.log("ERC20ChildTunnel deployed to:", erc20.address);
-  let tx = await erc20.setFxRootTunnel("0x557cd0cd1E5adD639f71030D76d413bf041254Ab")
-  await tx.wait()
   console.log(
     "npx hardhat verify --network mumbai",
     erc20.address,

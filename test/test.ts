@@ -39,37 +39,26 @@ describe("Multichain Test", function () {
             signer
         );
         try {
-            console.log("updating ....")
-            let tx = await rootFactory.updatePrice("0x75Ab5AB1Eef154C0352Fc31D2428Cef80C7F8B33")  // DAI address in goerli
-            tx = await tx.wait()
-            console.log("--------------tx----------------", tx.events[1].args)
-            const tokenPrice = tx.events[1].args[0]
-            console.log("update Price now.....")
-            
-            const id = BigNumber.from(tx.events[0].args['id']).toString();
-            const data = tx.events[0].args['data'];
-            console.log("seatId",id, root, data)
-            try {
+
                 provider = new ethers.providers.JsonRpcProvider(mumbai)
                 const signer = new ethers.Wallet(
                     process.env.PRIVATE_KEY as string,
                     provider
                 );
                 const childContract = new ethers.Contract(
-                    child,
+                    "0xa0060Cc969d760c3FA85844676fB654Bba693C22",
                     ChildABI.abi,
                     signer
                 );
                 console.log("=======create childContract Instance======")
-                let tx = await childContract.processMessageFromRoot(id.toString(), root, data)
-                console.log(2)
-                tx = await tx.wait()
-                let price = await childContract.UpdatePrice()
-                console.log("=======price=======", price.toString())
-                expect(price).to.be.equal(tokenPrice.toString())
-            } catch (e) {
-                console.error("-----error-----", e)
-            }
+                let tx = await childContract.latestStateId()
+                console.log("latestStateId", tx.toString())
+                tx = await childContract.latestRootMessageSender();
+                console.log("latestRootMessageSender", tx)
+                tx = await childContract.latestData();
+                console.log("latestData", tx)
+                
+
         } catch(e) {
             console.log("err---------------", e)
         }
